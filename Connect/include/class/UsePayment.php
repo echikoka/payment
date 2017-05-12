@@ -14,7 +14,7 @@
 				return false;
 			}
 			
-			return $this->updatePayment();
+			return $this->checkPayment();
 		}               
 
 		public function inboundText(){
@@ -24,42 +24,34 @@
 			return true;
 		}
 
-		function checkPayment( $result = null ){
+		function checkPayment(){
 
 			$sql_array  = array( $this->sd["RECEIPT"] );
 			$sql_texts  = "SELECT * FROM `tbl_payment` WHERE tbl_payment.RECEIPT = ? LIMIT 1;";
 
 			$db_sql = $this->pdoExecsql(PR_DATABASE, PR_USERNAME, $sql_texts, $sql_array);
-
 			$sqlrow = ($db_sql != NULL)? $db_sql->rowCount() : 0 ;
 			if($sqlrow > 0){
 				$this->dt = $db_sql->fetch(PDO::FETCH_ASSOC);
-
-				$db_sql = NULL;
-				return 0;
+				return $this->updatePayment();
 			}
 
-			$db_sql = NULL;
 			$this->ec = json_encode(array("status" => "failed", "errorno" => 2, "data" => array('msg' => 'does not exist')));
-			return $this->ouTput();
+			return 0;
 		}
 
 		function updatePayment(){
 
-			if($this->checkPayment() == 0){
-				$sql_array  = array( 1, $this->sd["INVOICE_NO"], 2, $this->dt["ID"] );
-				$sql_texts  = "UPDATE tbl_payment SET tbl_payment.`STATUS` = ?, tbl_payment.INVOICE_NO = ? WHERE tbl_payment.`STATUS` = ? AND tbl_payment.ID = ?;";
+			$sql_array  = array( 1, $this->sd["INVOICE_NO"], 2, $this->dt["ID"] );
+			$sql_texts  = "UPDATE tbl_payment SET tbl_payment.`STATUS` = ?, tbl_payment.INVOICE_NO = ? WHERE tbl_payment.`STATUS` = ? AND tbl_payment.ID = ?;";
 
-				$db_sql = $this->pdoExecsql(PR_DATABASE, PR_USERNAME, $sql_texts, $sql_array);
-				$sqlrow = ($db_sql != NULL)? $db_sql->rowCount() : 0 ;
-				unset($db_sql);
+			$db_sql = $this->pdoExecsql(PR_DATABASE, PR_USERNAME, $sql_texts, $sql_array);
+			$sqlrow = ($db_sql != NULL)? $db_sql->rowCount() : 0 ;
 
-				if($sqlrow > 0){
-					$this->ec = json_encode(array("status" => "success", "errorno" => 0, "data" => $this->dt ));
-				} else {
-					$this->ec = json_encode(array("status" => "failed", "errorno" => 1, "data" => array('msg' => 'failed')));
-				}
-
+			if($sqlrow > 0){
+				$this->ec = json_encode(array("status" => "success", "errorno" => 0, "data" => $this->dt ));
+			} else {
+				$this->ec = json_encode(array("status" => "failed", "errorno" => 1, "data" => array('msg' => 'failed')));
 			}
 
 			return $this->ouTput();

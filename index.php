@@ -1,7 +1,7 @@
 <?php
 	require_once './Connect/index.php' ;
 
-	class Payment extends dbConnect {
+	class Payment {
 
 		private $sd = null;
 
@@ -36,6 +36,7 @@
 				break;
 			}
 
+			return true;
 		}
 	}
 
