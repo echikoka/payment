@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'beforeConnect' => $baseDir . '/Connect/include/class/beforeConnect.php',
+    'GetPayment' => $baseDir . '/Connect/include/class/GetPayment.php',
+    'UsePayment' => $baseDir . '/Connect/include/class/UsePayment.php',
     'dbConnect' => $baseDir . '/Connect/include/class/dbConnect.php',
 );

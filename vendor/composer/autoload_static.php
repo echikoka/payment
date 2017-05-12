@@ -7,7 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInit2b261f63c038078e27cb92ce3d02ec76
 {
     public static $classMap = array (
-        'beforeConnect' => __DIR__ . '/../..' . '/Connect/include/class/beforeConnect.php',
+        'GetPayment' => __DIR__ . '/../..' . '/Connect/include/class/GetPayment.php',
+        'UsePayment' => __DIR__ . '/../..' . '/Connect/include/class/UsePayment.php',
         'dbConnect' => __DIR__ . '/../..' . '/Connect/include/class/dbConnect.php',
     );
 
