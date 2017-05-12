@@ -34,7 +34,7 @@
 
 				$db_sql = NULL;
 				$this->ec = json_encode(array("status" => "failed", "errorno" => 2, "data" => array('msg' => 'exist')));
-				return 1;
+				return $this->ouTput();
 			}
 
 			$db_sql = NULL;
@@ -54,14 +54,14 @@
 				if($sqlrow > 0){
 
 					$this->ec = json_encode(array("status" => "success", "errorno" => 0, "data" => array('msg' => 'success')));
-					return 1;
+					return $this->ouTput();
 				} else {
 					$this->ec = json_encode(array("status" => "failed", "errorno" => 1, "data" => array('msg' => 'failed')));
 				}
 
 			}
 
-			return 0;
+			return $this->ouTput();
 		}
 
 		function ouTput(){
@@ -79,6 +79,5 @@
 
 	#----------------------------------------------------------------------------------
 	$payment = new Payment();
-	$qr = $payment->ouTput();
 	#----------------------------------------------------------------------------------
 ?>
